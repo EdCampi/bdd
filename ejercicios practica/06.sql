@@ -1,3 +1,7 @@
+CREATE SCHEMA clase_6;
+
+SET search_path TO clase_6;
+
 -- un docente puede dictar 0 o muchas materias
 CREATE TABLE docentes (
     legajo VARCHAR(32) PRIMARY KEY,
@@ -6,7 +10,7 @@ CREATE TABLE docentes (
     inicio INT CHECK (1900 <= inicio AND 2025 >= inicio)
 );
 
--- una materia es dictada por un unico docente. Puede no tener docente asignado
+-- Una materia es dictada por un único docente. Puede no tener docente asignado
 CREATE TABLE materias (
     codigo VARCHAR(32) PRIMARY KEY,
     legajo_docente VARCHAR(32) DEFAULT NULL,
@@ -123,6 +127,8 @@ INSERT INTO materias_alumnos (codigo_materia, padron_alumno, nota, anio, cuatrim
 ('66.11', '108777', NULL, 2023, 2),
 ('66.11', '103888', 10, 2023, 2);
 
--- 1. Buscar a todos los alumnos que hayan cursado 'Base de Datos' en el 2do cuatriestre de 2023.
+-- 1. Buscar a todos los alumnos que hayan cursado 'Base de Datos' en el 2º cuatrimestre de 2023.
 
 -- 2. Contar la cantidad de materias que dicta cada docente
+
+DROP SCHEMA clase_6 CASCADE;
