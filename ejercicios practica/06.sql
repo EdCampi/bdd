@@ -18,7 +18,6 @@ CREATE TABLE materias (
     CONSTRAINT fk_docentes FOREIGN KEY (legajo_docente) REFERENCES docentes(legajo)
 );
 
-
 CREATE TABLE alumnos (
     nombre VARCHAR(32) PRIMARY KEY,
     apellido VARCHAR(32) NOT NULL,
@@ -36,8 +35,6 @@ CREATE TABLE materias_alumnos (
     CONSTRAINT materias_alumno PRIMARY KEY (codigo_materia, padron_alumno)
 );
 
-
-
 INSERT INTO docentes (legajo, nombre, apellido, inicio) VALUES
 ('1234', 'Ana', 'Pérez', 1991),
 ('5678', 'Luis', 'García', 2012),
@@ -52,7 +49,6 @@ INSERT INTO docentes (legajo, nombre, apellido, inicio) VALUES
 ('1112', 'Jorge', 'Perez', 2005),
 ('9090', 'Pedro', 'Gómez', 2013),
 ('5754', 'Martin', 'Torres', 2016);
-
 
 INSERT INTO materias (codigo, legajo_docente, nombre) VALUES
 ('75.01', NULL, 'Análisis Matemático I'),
@@ -108,8 +104,6 @@ INSERT INTO alumnos (nombre, apellido, dni, padron) VALUES
 ('Nicolás', 'Sánchez', '31111222', '108776'),
 ('Florencia', 'Pérez', '29999333', '103870');
 
-
-
 INSERT INTO materias_alumnos (codigo_materia, padron_alumno, nota, anio, cuatrimestre) VALUES
 ('75.02', '103888', 8, 2023, 1),
 ('62.02', '108777', 6, 2023, 1),
@@ -128,6 +122,18 @@ INSERT INTO materias_alumnos (codigo_materia, padron_alumno, nota, anio, cuatrim
 ('66.11', '103888', 10, 2023, 2);
 
 -- 1. Buscar a todos los alumnos que hayan cursado 'Base de Datos' en el 2º cuatrimestre de 2023.
+
+SELECT * FROM (
+    SELECT alumnos.nombre,
+           alumnos.apellido,
+           alumnos.padron,
+           materias_alumnos.padron_alumno,
+           materias_alumnos.cuatrimestre,
+           materias_alumnos.anio,
+           materias_alumnos.codigo_materia
+    FROM alumnos INNER JOIN materias_alumnos
+    ON alumnos.padron = materias_alumnos.padron_alumno) as m_a
+WHERE m_a.codigo_materia = '66.11' AND m_a.anio = 2023 AND m_a.cuatrimestre = 2;
 
 -- 2. Contar la cantidad de materias que dicta cada docente
 
