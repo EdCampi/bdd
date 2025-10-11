@@ -1,10 +1,10 @@
-/* Ejercicio 1:  Una cadena que vende hamburguesas en una ciudad, utiliza un sistema de gestión de base de datos,
+/* Ejercicio 1: Una cadena que vende hamburguesas en una ciudad, utiliza un sistema de gestión de base de datos,
    para obtener información relevante y tomar decisiones. Dados los siguientes esquemas de relaciones:
 
-   Sucursales: { nombre_sucursal, barrio }
-   Combos: { numero_combo, descripcion, precio }
-   Empleados: { dni, nombre, apellido, nombre_sucursal }
-   Barrios: { nombre }
+   Sucursales: {nombre_sucursal, barrio}
+   Combos: {numero_combo, descripción, precio}
+   Empleados: {dni, nombre, apellido, nombre_sucursal}
+   Barrios: {nombre}
 
    realizar las siguientes consultas en SQL:
  */
