@@ -61,7 +61,7 @@ VALUES ('F001', 'TecnoMundo'),
        ('F006', 'GamePro'),
        ('F007', 'DecoHogar'),
        ('CA123', 'Blaster'),
-       ('F008', 'InnovaFuturo'); -- ESTE FABRICANTE NO TIENE ARTÍCULOS ASOCIADOS
+       ('F008', 'InnovaFuturo');
 
 INSERT INTO ARTICULOS (Codigo_articulo, Nombre, Descripcion, Codigo_fabricante, Precio)
 VALUES (101, 'Smartphone X1', 'Teléfono inteligente de última generación con pantalla OLED', 'F001', 850000),
@@ -126,21 +126,11 @@ VALUES ('2025-10-01', 35123456, 102, 1),
        ('2025-10-12', 40987654, 200, 1),
        ('2025-10-12', 32456789, 200, 5),
        ('2025-10-12', 34567890, 500, 30),
-       -- Hacemos que Maria Gomez, que ya había comprado Tornillos, ahora compre Clavos
        ('2025-10-13', 38765432, 500, 50),
-
--- Hacemos que Miguel Fernandez, que ya había comprado Clavos, ahora compre Tornillos
        ('2025-10-13', 34567890, 200, 100),
-
--- El nuevo cliente John Smith compra Tornillos en un día...
        ('2025-10-14', 50111222, 200, 200),
--- ... y Clavos en otro día
        ('2025-10-15', 50111222, 500, 300),
-
--- La nueva cliente Emily Jones compra solo Tornillos (para asegurar que no aparezca en el resultado)
        ('2025-10-14', 50333444, 200, 25),
-
--- El nuevo cliente David Brown compra solo Clavos (para asegurar que no aparezca en el resultado)
        ('2025-10-14', 50555666, 500, 75);
 
 
