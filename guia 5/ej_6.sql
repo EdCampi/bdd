@@ -5,7 +5,7 @@ esquemas de relaciones:
 Alumnos: {padron, nombre, apellido}
 Docentes: {legajo, nombre, apellido, cargo}
 Materias: {codigo, nombre}
-Materias_Docentes: { código, legajo}
+Materias_Docentes: {código, legajo}
 Notas: {padron, codigo, nota, año, cuatrimestre}
 
 realizar las siguientes consultas en SQL:*/
@@ -34,7 +34,7 @@ CREATE TABLE DOCENTES
 CREATE TABLE MATERIAS
 (
     Codigo INT,
-    Nombre VARCHAR(15) NOT NULL,
+    Nombre VARCHAR(20) NOT NULL,
     PRIMARY KEY (Codigo)
 );
 
@@ -69,7 +69,10 @@ VALUES (1001, 'Juan', 'Perez'),
        (1007, 'Pedro', 'Gomez'),
        (1008, 'Sofia', 'Diaz'),
        (1009, 'Diego', 'Hernandez'),
-       (1010, 'Valeria', 'Torres');
+       (1010, 'Valeria', 'Torres'),
+       (1011, 'Martin', 'Acosta'),
+       (1012, 'Camila', 'Rios');
+
 
 INSERT INTO DOCENTES (Legajo, Nombre, Apellido, Cargo)
 VALUES (201, 'Jorge', 'Fernandez', 'Titular'),
@@ -85,7 +88,8 @@ VALUES (10, 'Algebra'),
        (12, 'Fisica I'),
        (13, 'Base de Datos'),
        (14, 'Sintaxis'),
-       (15, 'Redes');
+       (15, 'Redes'),
+       (16, 'Sist. Operativos');
 
 INSERT INTO MATERIAS_DOCENTES (Codigo, Legajo)
 VALUES (10, 201),
@@ -115,7 +119,15 @@ VALUES (1001, 10, 8, '2023-12-05', '2'),
        (1007, 11, 7, '2023-12-01', '2'),
        (1008, 14, 9, '2024-07-22', '1'),
        (1009, 15, 8, '2024-07-18', '1'),
-       (1010, 13, 2, '2024-07-20', '1');
+       (1010, 13, 2, '2024-07-20', '1'),
+       (1005, 10, 2, '2023-07-12', '1'),
+       (1005, 11, 2, '2023-12-01', '2'),
+       (1011, 13, 8, '2024-07-20', '1'),
+       (1011, 16, 7, '2023-12-10', '2'),
+       (1012, 16, 6, '2024-07-19', '1'),
+       (1002, 16, 5, '2024-07-19', '1'),
+       (1010, 10, 2, '2023-12-05', '2'),
+       (1010, 11, 2, '2023-07-15', '1');
 
 -- 1. Obtener todos los alumnos que aprobaron la materia “Base de Datos” (nota >= 4).
 
@@ -160,5 +172,48 @@ FROM MATERIAS M
          NATURAL JOIN MATERIAS_DOCENTES MD
          JOIN DOCENTES D ON D.Legajo = MD.Legajo
 ORDER BY Codigo;
+
+-- 6. Obtener los alumnos con más aplazos (nota < 4).
+
+WITH CANTIDAD_APLAZOS AS (SELECT Padron, COUNT(*) as Cantidad
+                          FROM (SELECT Padron, Nota
+                                FROM NOTAS
+                                WHERE Nota < 4) as aux
+                          GROUP BY Padron)
+SELECT Nombre, Apellido, Cantidad
+FROM ALUMNOS
+         NATURAL JOIN CANTIDAD_APLAZOS
+WHERE Cantidad = (SELECT MAX(Cantidad) FROM CANTIDAD_APLAZOS);
+
+-- 7. Obtener los alumnos que cursaron las materias “Base de Datos” y “Sistemas
+-- Operativos”.
+
+(SELECT Padron, A.Nombre, Apellido
+ FROM ALUMNOS A
+          NATURAL JOIN NOTAS N
+          JOIN MATERIAS M ON M.Codigo = N.Codigo
+ WHERE M.Nombre = 'Base de Datos')
+INTERSECT
+(SELECT Padron, A.Nombre, Apellido
+ FROM ALUMNOS A
+          NATURAL JOIN NOTAS N
+          JOIN MATERIAS M ON M.Codigo = N.Codigo
+ WHERE M.Nombre = 'Sist. Operativos');
+
+
+-- 8. Obtener los alumnos que cursaron las materias “Base de Datos” o “Sistemas
+-- Operativos”.
+
+(SELECT Padron, A.Nombre, Apellido
+ FROM ALUMNOS A
+          NATURAL JOIN NOTAS N
+          JOIN MATERIAS M ON M.Codigo = N.Codigo
+ WHERE M.Nombre = 'Base de Datos')
+UNION
+(SELECT Padron, A.Nombre, Apellido
+ FROM ALUMNOS A
+          NATURAL JOIN NOTAS N
+          JOIN MATERIAS M ON M.Codigo = N.Codigo
+ WHERE M.Nombre = 'Sist. Operativos');
 
 DROP SCHEMA FACULTAD CASCADE;
