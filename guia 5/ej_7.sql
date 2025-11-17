@@ -266,6 +266,13 @@ SELECT Dia, Hora, Min_precio
 FROM MIN_FUNCIONES
 WHERE Min_precio = (SELECT MIN(Min_precio) FROM MIN_FUNCIONES);
 
+SELECT Dia, Hora, MIN(Precio) as Min_precio
+FROM FUNCIONES
+GROUP BY Dia, Hora
+HAVING MIN(Precio) <= ALL(SELECT min FROM (SELECT Dia, Hora, MIN(Precio) as min
+                          FROM FUNCIONES
+                          GROUP BY Dia, Hora));
+
 -- 6. Obtener un listado con la cantidad de películas por género, ordenada de manera
 -- descendente.
 
