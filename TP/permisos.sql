@@ -76,3 +76,4 @@ GRANT
 USAGE,
 SELECT
 ON ALL SEQUENCES IN SCHEMA red_social_bdd TO Usuario;
+
